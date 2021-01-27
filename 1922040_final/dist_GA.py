@@ -116,7 +116,7 @@ class DIST_GA():
             random.shuffle(individual)
             population.append(individual)
         for generation in range(self.GENERATION):
-            print(u"TSP by GA (" + str(generation + 1) + u"generation)")
+            # print(u"TSP by GA (" + str(generation + 1) + u"generation)")
             # 選択
             population = self.selection(points, population)
             # 交叉と突然変異
@@ -136,11 +136,13 @@ class DIST_GA():
         # 集団を適応度順にソートする
         self.sort_fitness(points, population)
         # 都市の経路を描画
+        route = []
+        dist = 0
         for ind in range(self.POPULATION_SIZE):
             #canvas = canvas_list[ind]
             route = population[ind] # 経路
             dist = self.calc_distance(points, route)
-            print(route, dist)
+            # print(route, dist)
             for i in range(self.POINTS_SIZE):
                 (x0, y0) = points[route[i]]
                 if i == self.POINTS_SIZE - 1:
@@ -149,7 +151,9 @@ class DIST_GA():
                 else:
                     (x1, y1) = points[route[i+1]]
 
+        return route, dist
 
-spot_list = [(132, 24),(125, 18),(0, 100)]
-GA = DIST_GA(len(spot_list), spot_list)
-GA.main()
+
+# spot_list = [(132, 24),(125, 18),(0, 100)]
+# GA = DIST_GA(len(spot_list), spot_list)
+# print(GA.main())

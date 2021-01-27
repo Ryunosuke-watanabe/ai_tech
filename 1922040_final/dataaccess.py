@@ -36,3 +36,15 @@ class DataAccess:
         data = (str(loc), )
         db = DB(Var.hostname, Var.port, Var.dbname, Var.username, Var.password)
         return db.execute(query, data)
+
+    def get_lat_lng_sense(self, loc):
+        query = "SELECT loc, lat, lng, fun, history, view, nature FROM final_spot_table WHERE loc = %s "
+        data = (str(loc), )
+        db = DB(Var.hostname, Var.port, Var.dbname, Var.username, Var.password)
+        return db.execute(query, data)
+
+    def get_lat_lng_sense2(self, loc):
+        query = "SELECT loc, lat, lng, fun, history, view, nature FROM final_spot_table WHERE loc != %s "
+        data = (str(loc), )
+        db = DB(Var.hostname, Var.port, Var.dbname, Var.username, Var.password)
+        return db.execute(query, data)

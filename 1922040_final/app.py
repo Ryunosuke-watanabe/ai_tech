@@ -1,9 +1,10 @@
 from dataaccess import DataAccess
 from dist import Graph
+from dist_GA import DIST_GA
 import numpy as np
 from math import sin, cos, acos, radians
 
-num = input("1→空間的に近い場所を検索, 2→２点間の移動時間, 3→感性が近い場所への時間")
+num = input("1→空間的に近い場所を検索, 2→２点間の移動時間, 3→感性が近い場所への時間, 4→遺伝的アルゴリズムによる巡回経路")
 
 da = DataAccess()
 
@@ -159,5 +160,51 @@ if num == "3":
     else:
         print("検索結果はありませんでした。")
 
-if num != "1" and num != "2" and num != "3":
-    print('0か1か2を入力してください。')
+if num == "4":
+    loc = input('検索したい場所を入力てください。')
+    spot_list = da.get_lat_lng_sense(loc)
+    spot_list2 = da.get_lat_lng_sense2(loc)
+
+    base = np.array([])
+    base2 = np.array([])
+
+    for spot in spot_list:
+        base = np.append(base, list(spot))
+    for spots in spot_list2:
+        base2 = np.append(base2, list(spots), axis=0)
+    base2 = base2.reshape(len(spot_list2), int(len(base2) / len(spot_list2)))
+
+    # 感性が近いものを抽出
+    sense_list = np.empty([0, 4])
+    for item in base2:
+        ans = np.array([])
+        tmp = np.sum(np.array([base[3:]], dtype=float) * np.array([item[3:]], dtype=float))
+        ans = np.append(ans, tmp)
+        ans = np.append(ans, item[:3])
+        sense_list = np.append(sense_list, np.array([ans]), axis=0)
+
+    # 今回は感性が近い4つを採用する
+    sense_list = np.sort(sense_list, axis=0)[-4:]
+    base_del = np.array([])
+    base_del = np.append(base_del, 'base')
+    base_del = np.append(base_del, base[:3])
+    sense_list = np.append(sense_list, np.array([base_del]), axis=0)
+    print(sense_list)
+    result = []
+    for item in sense_list:
+        tmp = item[-2:]
+        tmp = list(np.float_(tmp))
+        result.append(tuple(tmp))
+    print(result)
+    ga = DIST_GA(len(result), result)
+    result_ga = ga.main()
+
+    print('遺伝的アルゴリズムによる最短経路')
+    for i in result_ga[0]:
+        print(sense_list[i][1])
+        print('↓')
+
+    print('合計距離：', result_ga[1])
+
+if num != "1" and num != "2" and num != "3" and num != "4":
+    print('0か1か2か3を入力してください。')
