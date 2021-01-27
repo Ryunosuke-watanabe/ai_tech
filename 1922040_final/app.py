@@ -189,13 +189,13 @@ if num == "4":
     base_del = np.append(base_del, 'base')
     base_del = np.append(base_del, base[:3])
     sense_list = np.append(sense_list, np.array([base_del]), axis=0)
-    print(sense_list)
+    # print(sense_list)
     result = []
     for item in sense_list:
         tmp = item[-2:]
         tmp = list(np.float_(tmp))
         result.append(tuple(tmp))
-    print(result)
+    # print(result)
     ga = DIST_GA(len(result), result)
     result_ga = ga.main()
 
