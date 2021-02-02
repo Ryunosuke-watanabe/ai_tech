@@ -1,5 +1,5 @@
 import sys
-class Graph():
+class Graph:
     def __init__(self, vertex):
         self.V = vertex
         self.graph = [[0 for column in range(vertex)] for row in range(vertex)]

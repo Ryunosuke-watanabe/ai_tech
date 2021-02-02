@@ -3,7 +3,7 @@ import random
 import math
 import copy
 
-class DIST_GA():
+class DIST_GA:
 
     def __init__(self, point_size, points):
         self.POINTS_SIZE = point_size # 都市数(個体の遺伝子数)
